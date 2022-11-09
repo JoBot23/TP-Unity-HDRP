@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
             Vector3 move = transform.right * x + transform.forward * z;
             controller.Move(move * speed * Time.deltaTime);
 
-            // Gravité
+            // Gravitï¿½
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
 
@@ -72,11 +72,11 @@ public class PlayerController : MonoBehaviour
             {
                 TimeShoot = TimeBetweenShots;
 
-                //Création du projetctile au bon endroit
+                //Crï¿½ation du projetctile au bon endroit
 
                 PrefabProjectile.GetComponent<Renderer>().material = balls[Random.Range(0, 5)];
                 Transform proj = GameObject.Instantiate<Transform>(PrefabProjectile, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward * OffsetForwardShoot, transform.rotation);
-                //Ajout d une impulsion de départ
+                //Ajout d une impulsion de dï¿½part
                 proj.GetComponent<Rigidbody>().AddForce(transform.forward * ProjectileStartSpeed, ForceMode.Impulse);
             }
 
