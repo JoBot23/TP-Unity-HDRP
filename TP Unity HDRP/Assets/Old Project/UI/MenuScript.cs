@@ -16,7 +16,7 @@ public class MenuScript : MonoBehaviour
             if (pauseToggle)
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                player.enableCam();
+                //player.enableCam();
                 canvasV.SetActive(false);
                 pauseToggle = !pauseToggle;
                 player.canMove = true;
@@ -24,7 +24,7 @@ public class MenuScript : MonoBehaviour
             else
             {
                 Cursor.lockState = CursorLockMode.None;
-                player.disableCam();
+                //player.disableCam();
                 pauseToggle = !pauseToggle;
                 canvasV.SetActive(true);
                 player.canMove = false;

@@ -1089,7 +1089,7 @@ PrefabInstance:
     - target: {fileID: 5634479082807629319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
       propertyPath: mouseSensitivity
-      value: 200
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 5634479082807629369, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
@@ -1198,6 +1198,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 6186626671384533858}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
       propertyPath: speed
       value: 4
       objectReference: {fileID: 0}
@@ -1213,13 +1218,83 @@ PrefabInstance:
       objectReference: {fileID: 41132778}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 6186626671384533858}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
       propertyPath: camCine
       value: 
       objectReference: {fileID: 870307401}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 6186626669542448711}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
       propertyPath: jumpHeight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: groundCheck
+      value: 
+      objectReference: {fileID: 6186626671097395265}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: runBobSpeed
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: crouchHeight
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: runBobAmount
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: timeToCrouch
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: walkBobSpeed
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: walkBobAmount
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: crouchBobSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: sprintBobSpeed
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: standingHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: crouchBobAmount
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: sprintBobAmount
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
@@ -1236,6 +1311,11 @@ PrefabInstance:
         type: 3}
       propertyPath: balls.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: crouchingCenter.y
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
@@ -1282,7 +1362,8 @@ PrefabInstance:
       propertyPath: ProjectileStartSpeed
       value: 30
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5634479084747756307, guid: 61956f0fa7e6c3c40a50e365739e6acf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 61956f0fa7e6c3c40a50e365739e6acf, type: 3}
 --- !u!114 &6186626669542448708 stripped
 MonoBehaviour:
@@ -1299,6 +1380,18 @@ MonoBehaviour:
 --- !u!4 &6186626669542448709 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5634479084747756318, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011667515453410651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &6186626669542448711 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 5634479084747756316, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011667515453410651}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6186626671097395265 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5634479083065488666, guid: 61956f0fa7e6c3c40a50e365739e6acf,
     type: 3}
   m_PrefabInstance: {fileID: 2011667515453410651}
   m_PrefabAsset: {fileID: 0}
@@ -1433,3 +1526,9 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!20 &6186626671384533858 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5634479082807629369, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+    type: 3}
+  m_PrefabInstance: {fileID: 2011667515453410651}
+  m_PrefabAsset: {fileID: 0}
