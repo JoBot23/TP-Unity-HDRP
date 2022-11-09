@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float sprintSpeed;
     public float crouchSpeed;
     public float jumpHeight;
+    private float ySpeed;
 
     public float gravity = -9.81f;
     private Vector3 velocity;
@@ -22,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private bool grounded;
     public Transform groundCheck;
     public LayerMask groundMask;
+
+    Vector3 moveDirection;
+    Vector2 currentInput;
 
 
     [Header("Crouch Parameters")]
@@ -55,29 +59,11 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            grounded = Physics.CheckSphere(groundCheck.position, 0.6f, groundMask);
-
-            if (grounded && velocity.y < 0)
+            Move();
+            if (Input.GetButtonDown("Jump") && controller.isGrounded && !isCrouching)
             {
-                velocity.y = -2f;
+                moveDirection.y = jumpHeight;
             }
-
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
-
-            if (Input.GetButtonDown("Jump") && grounded)
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-            }
-
-            Vector3 move = transform.right * x + transform.forward * z;
-            if(isSprinting) controller.Move(move * sprintSpeed * Time.deltaTime);
-            else controller.Move(move * (isCrouching ? crouchSpeed :  speed) * Time.deltaTime);
-            
-
-            // Gravit�
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
 
             //Sprint
             if(canSprint)
@@ -100,11 +86,24 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void Move()
+    {
+        currentInput = new Vector2((isCrouching ? crouchSpeed : isSprinting ? sprintSpeed : speed) * Input.GetAxis("Vertical"), (isCrouching ? crouchSpeed : isSprinting ? sprintSpeed : speed) * Input.GetAxis("Horizontal"));
+
+        float moveDirectionY = moveDirection.y;
+        moveDirection = (transform.TransformDirection(Vector3.forward) * currentInput.x) + (transform.TransformDirection(Vector3.right) * currentInput.y);
+        moveDirection.y = moveDirectionY;
+
+        if(!controller.isGrounded)
+            moveDirection.y += gravity * Time.deltaTime;
+
+        controller.Move(moveDirection * Time.deltaTime);
+    }
+
     private void Sprint()
     {
         if(Input.GetKey(KeyCode.LeftShift) && controller.isGrounded && !crouchAnimation && !isCrouching)
         {
-            //if(isCrouching) StartCoroutine(CrouchStand());
             isSprinting = true;
         }
         else isSprinting = false;

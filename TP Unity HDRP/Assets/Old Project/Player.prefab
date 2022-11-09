@@ -1204,7 +1204,7 @@ PrefabInstance:
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
       propertyPath: speed
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
@@ -1238,6 +1238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
+      propertyPath: crouchSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 6186626671097395265}
@@ -1245,6 +1250,11 @@ PrefabInstance:
         type: 3}
       propertyPath: runBobSpeed
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
+        type: 3}
+      propertyPath: sprintSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5634479084747756319, guid: 61956f0fa7e6c3c40a50e365739e6acf,
         type: 3}
