@@ -10,7 +10,7 @@ public class PickupThrow : MonoBehaviour
     public float pickupRange;
     public float throwForce;
     private GameObject obj;
-    bool isHoldingObj;
+    public bool isHoldingObj;
     public static PickupThrow instance;
 
     void Awake() 
@@ -22,14 +22,21 @@ public class PickupThrow : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Mouse0) && isHoldingObj)
         {
-            StartCoroutine(ThrowObject());
+            isHoldingObj = false;
+            obj.transform.SetParent(null);
+            obj.GetComponent<Rigidbody>().isKinematic = false;
+            obj.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Extrapolate;
+            obj.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            obj.GetComponent<Rigidbody>().AddForce(transform.parent.forward * throwForce);      
+            obj = null;      
+
+            StartCoroutine(MouseLookScript.instance.CanHoverAgain());
         }
     }
 
     public void PickupObj(GameObject go)
     {
         obj = go;
-        //obj.GetComponentInChildren<Collider>().enabled = false;
         obj.layer = 7;
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0,0,0);
@@ -43,18 +50,9 @@ public class PickupThrow : MonoBehaviour
             obj.AddComponent<Rigidbody>();
 
         go.GetComponent<Rigidbody>().isKinematic = true;
+        go.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        go.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         
         isHoldingObj = true;
     }
-
-    private IEnumerator ThrowObject()
-    {
-        isHoldingObj = false;
-        obj.transform.SetParent(null);
-        obj.GetComponent<Rigidbody>().isKinematic = false;
-        obj.GetComponent<Rigidbody>().AddForce(transform.parent.forward * throwForce);
-        
-        yield return new WaitForSeconds(0.1f);
-        obj.GetComponentInChildren<Collider>().enabled = true;
-    } 
 }

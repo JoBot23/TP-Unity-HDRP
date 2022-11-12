@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1612207526
 Transform:
@@ -57,10 +57,10 @@ GameObject:
   - component: {fileID: 205868133531103028}
   m_Layer: 0
   m_Name: EA03_Prop_Stool_01a_PRE
-  m_TagString: Item
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4189774309066372
 Transform:
@@ -121,10 +121,10 @@ GameObject:
   - component: {fileID: 23710055616064452}
   m_Layer: 0
   m_Name: EA03_Prop_Stool_01a_LOD0
-  m_TagString: Item
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4668100566301602
 Transform:
@@ -170,7 +170,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: af96a88a0e2b1cf4a99427ecf41ebbdd, type: 2}
-  - {fileID: 2100000, guid: ef3e00fff5d553848a3ea4355afa4404, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -205,10 +204,10 @@ GameObject:
   - component: {fileID: 23453284955054800}
   m_Layer: 0
   m_Name: EA03_Prop_Stool_01a_LOD2
-  m_TagString: Item
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4717292240252764
 Transform:
@@ -254,7 +253,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: af96a88a0e2b1cf4a99427ecf41ebbdd, type: 2}
-  - {fileID: 2100000, guid: ef3e00fff5d553848a3ea4355afa4404, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -289,10 +287,10 @@ GameObject:
   - component: {fileID: 23481572156520410}
   m_Layer: 0
   m_Name: EA03_Prop_Stool_01a_LOD1
-  m_TagString: Item
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4653086227929742
 Transform:
@@ -338,7 +336,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: af96a88a0e2b1cf4a99427ecf41ebbdd, type: 2}
-  - {fileID: 2100000, guid: ef3e00fff5d553848a3ea4355afa4404, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

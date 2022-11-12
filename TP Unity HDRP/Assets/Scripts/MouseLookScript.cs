@@ -10,9 +10,12 @@ public class MouseLookScript : MonoBehaviour
     float xRotation = 0f;
     GameObject obj;
     bool outlined;
+    bool canHover = true;
+    public static MouseLookScript instance;
 
-    void Start()
+    void Awake()
     {
+        instance = this;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -37,18 +40,22 @@ public class MouseLookScript : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.TransformDirection(direction * PickupThrow.instance.pickupRange));
         Debug.DrawRay(transform.position, transform.TransformDirection(direction * PickupThrow.instance.pickupRange));
 
-        if(Physics.Raycast(ray, out RaycastHit hit, PickupThrow.instance.pickupRange))
+        if(Physics.Raycast(ray, out RaycastHit hit, PickupThrow.instance.pickupRange) && canHover)
         {
             if(hit.collider.tag == "Item")
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetKeyDown(KeyCode.E) && outlined)
                 {
+                    canHover = false;
+                    UnOutlineObject();
                     PickupThrow.instance.PickupObj(hit.collider.transform.parent.gameObject);
+                    return;
                 }
 
                 //Show Outline
-                if(!outlined && hit.collider.gameObject != obj && hit.collider.gameObject.GetComponent<MeshRenderer>().materials.Length == 2)
+                if(!outlined && hit.collider.gameObject != obj)
                 {
+                    print("in");
                     outlined = true;
                     obj = hit.collider.gameObject;
 
@@ -60,15 +67,27 @@ public class MouseLookScript : MonoBehaviour
             else 
             {   
                 //Hide Outline
-                if(outlined) 
+                if(outlined && !PickupThrow.instance.isHoldingObj) 
                 {
-                    Material[] mats = obj.GetComponent<MeshRenderer>().materials;
-                    mats[1] = PickupThrow.instance.outlinedHiddenMaterial;
-                    obj.GetComponent<MeshRenderer>().materials = mats;
-                    obj = null;
-                    outlined = false;
+                    UnOutlineObject();
                 }
             }
         }
+    }
+
+    public void UnOutlineObject()
+    {
+        print("out");
+        outlined = false;
+        Material[] mats = obj.GetComponent<MeshRenderer>().materials;
+        mats[1] = PickupThrow.instance.outlinedHiddenMaterial;
+        obj.GetComponent<MeshRenderer>().materials = mats;
+        obj = null;
+    }
+
+    public IEnumerator CanHoverAgain()
+    {
+        yield return new WaitForSeconds(0.4f);
+        canHover = true;
     }
 }
