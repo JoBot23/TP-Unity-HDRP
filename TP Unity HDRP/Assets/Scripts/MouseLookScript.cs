@@ -55,7 +55,6 @@ public class MouseLookScript : MonoBehaviour
                 //Show Outline
                 if(!outlined && hit.collider.gameObject != obj)
                 {
-                    print("in");
                     outlined = true;
                     obj = hit.collider.gameObject;
 
@@ -77,7 +76,6 @@ public class MouseLookScript : MonoBehaviour
 
     public void UnOutlineObject()
     {
-        print("out");
         outlined = false;
         Material[] mats = obj.GetComponent<MeshRenderer>().materials;
         mats[1] = PickupThrow.instance.outlinedHiddenMaterial;
