@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float timeToCrouch;
     [SerializeField] Vector3 crouchingCenter = new Vector3(0,0.5f,0);
     [SerializeField] Vector3 standingCenter = new Vector3(0,0,0);
-    bool isCrouching;
+    [HideInInspector] public bool isCrouching;
     bool crouchAnimation;
 
     [Header("Head Bobbing")]
