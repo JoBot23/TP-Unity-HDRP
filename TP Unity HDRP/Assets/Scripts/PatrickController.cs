@@ -19,6 +19,7 @@ public class PatrickController : MonoBehaviour
     [SerializeField] float hearingRangeCrouch;
 
     [Header("Booleans")]
+    public bool chasing;
     public bool canSeePlayer;
     public bool canHearPlayer;
     public bool patrolling = true;
@@ -32,18 +33,39 @@ public class PatrickController : MonoBehaviour
 
     void Update()
     {
-        if(Vector3.Distance(transform.position, player.transform.position) < hearingRangeRunning && player.isSprinting)
+         if(!canSeePlayer && PlayerDetected())
+        {
+            canSeePlayer = true;
+            target = PlayerDetected();
+        }
+        else if(canSeePlayer && !PlayerDetected())
+        {
+            canSeePlayer = false;
+            target = null;
+        }
+
+        if(!canHearPlayer && Vector3.Distance(transform.position, player.transform.position) < hearingRangeRunning && player.isSprinting)
         {
             canHearPlayer = true;
         }
-        if(Vector3.Distance(transform.position, player.transform.position) < hearingRange && !player.isCrouching)
+        if(!canHearPlayer && Vector3.Distance(transform.position, player.transform.position) < hearingRange && !player.isCrouching)
         {
             canHearPlayer = true;
         }
-        else if(Vector3.Distance(transform.position, player.gameObject.transform.position) < hearingRangeCrouch)
+        else if(!canHearPlayer && Vector3.Distance(transform.position, player.gameObject.transform.position) < hearingRangeCrouch)
         {
             canHearPlayer = true;
         }
+        if(!chasing) canHearPlayer = false;
+    }
+
+    private GameObject PlayerDetected()
+    {
+        if(sightSense.objects.Count > 0)
+            return sightSense.objects[0];
+        if(canHearPlayer)
+            return gameObject;
+        return null;
     }
 
     private void OnDrawGizmos()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChaseState : State
 {
     public AttackState attackState;
+    public PatrolState patrolState;
     public bool isInAttackRange = false;
 
     PatrickController papate;
@@ -24,12 +25,14 @@ public class ChaseState : State
         {
             if(papate.target)
             {
-                print("agent");
+                if(!papate.chasing) papate.chasing = true;
                 papate.agent.SetDestination(papate.target.transform.position);
             }
             else 
             {
-                return this; //return searching state
+                papate.patrolling = true;
+                papate.chasing = false;
+                return patrolState; //return searching state
             }
 
             return this;
