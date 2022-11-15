@@ -6,10 +6,10 @@ using UnityEngine;
 public class AISight : MonoBehaviour
 {
 
-    [SerializeField] float sightRange;
-    [SerializeField] float sightAngle;
+    [SerializeField] public float sightRange;
+    [SerializeField] public float sightAngle;
     [SerializeField] float sightHeight;
-    [SerializeField] Color sightGizmoColor = Color.red;
+    [SerializeField] public Color sightGizmoColor = Color.red;
 
     [SerializeField] int scanFrequency = 30;
     [SerializeField] LayerMask layers;
@@ -164,7 +164,7 @@ public class AISight : MonoBehaviour
         return mesh;
     }
 
-    private void OnValidate() 
+    public void OnValidate() 
     {
         mesh = CreateSightGizmo();
         scanInterval = 1f / scanFrequency;

@@ -8,7 +8,7 @@ public class PatrolState : State
     [SerializeField] ChaseState chaseState;
     PatrickController papate;
     public int waypointIndex;
-    public float waitBetweenWaypoints;
+    public float waitWaypointTime;
     private float waitTimer;
 
     void Start() 
@@ -21,6 +21,7 @@ public class PatrolState : State
         if(papate.canSeePlayer || papate.canHearPlayer) 
         {
             papate.patrolling = false;
+            papate.ChasingSight();
             return chaseState;
         }
         else
@@ -34,17 +35,30 @@ public class PatrolState : State
     {
         if(PatrickController.instance.agent.remainingDistance < 0.5f)
         {
-            waitTimer += Time.deltaTime;
-            if(waitTimer > waitBetweenWaypoints)
+            if(waypointIndex < PatrickController.instance.path.waypoints.Count-1)
             {
-                if(waypointIndex < PatrickController.instance.path.waypoints.Count-1)
+                if(PatrickController.instance.path.waypoints[waypointIndex].tag == "WaitWaypoint")
+                {
+                    waitTimer += Time.deltaTime;
+                    if(waitTimer > waitWaypointTime)
+                    {
+                        waypointIndex++;
+                        waitTimer = 0;
+                        PatrickController.instance.agent.SetDestination(PatrickController.instance.path.waypoints[waypointIndex].position);
+                        if(waypointIndex == PatrickController.instance.path.waypoints.Count-1) waypointIndex = 0;
+                    }
+                }
+                else
                 {
                     waypointIndex++;
+                    PatrickController.instance.agent.SetDestination(PatrickController.instance.path.waypoints[waypointIndex].position);
                 }
-                else waypointIndex = 0;
-                PatrickController.instance.agent.SetDestination(PatrickController.instance.path.waypoints[waypointIndex].position);
-                waitTimer = 0;
             }
+            else 
+            {
+                waypointIndex = 0; 
+            }
+           
         }
     }
 }

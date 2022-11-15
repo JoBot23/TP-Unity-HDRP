@@ -26,12 +26,14 @@ public class Path : MonoBehaviour
     {
         for (int i = 0; i < waypoints.Count; i++)
         {
+            //Numbers
             GUIStyle labelStyle = new GUIStyle();
             labelStyle.fontSize = 30;
             labelStyle.normal.textColor = debugColour;
             if (drawNumbers)
                 Handles.Label(waypoints[i].position, i.ToString(), labelStyle);
-            //Draw Lines Between Points.
+            
+            //Lines
             if (i >= 1)
             {
                 Gizmos.color = debugColour;

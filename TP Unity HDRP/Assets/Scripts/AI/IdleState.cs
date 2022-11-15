@@ -16,6 +16,7 @@ public class IdleState : State
     {
         if(papate.canSeePlayer) 
         {
+            papate.ChasingSight();
             return chaseState;
         }
         else

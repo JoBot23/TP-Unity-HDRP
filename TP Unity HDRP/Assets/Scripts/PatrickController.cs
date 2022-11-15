@@ -9,9 +9,15 @@ public class PatrickController : MonoBehaviour
     [SerializeField] PlayerController player;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public AISight sightSense;
+    public List<Path> patrolPaths = new List<Path>();
     public Path path;
     public Animator animPatrick;
     public GameObject target;
+
+    [Header("Parameters")]
+    public float patrollingSpeed;
+    public float chasingSpeed;
+    public float throughPatrolSpeed;
 
     [Header("Hearing")]
     [SerializeField] float hearingRangeRunning;
@@ -33,7 +39,13 @@ public class PatrickController : MonoBehaviour
 
     void Update()
     {
-         if(!canSeePlayer && PlayerDetected())
+        //Speed
+        if(patrolling) agent.speed = patrollingSpeed;
+        else if(chasing) agent.speed = chasingSpeed;
+        else agent.speed = throughPatrolSpeed;
+
+        //Sight
+        if(!canSeePlayer && PlayerDetected())
         {
             canSeePlayer = true;
             target = PlayerDetected();
@@ -44,19 +56,34 @@ public class PatrickController : MonoBehaviour
             target = null;
         }
 
-        if(!canHearPlayer && Vector3.Distance(transform.position, player.transform.position) < hearingRangeRunning && player.isSprinting)
+        //Hearing
+        if(Vector3.Distance(transform.position, player.transform.position) < hearingRangeRunning && player.isSprinting)
         {
             canHearPlayer = true;
         }
-        if(!canHearPlayer && Vector3.Distance(transform.position, player.transform.position) < hearingRange && !player.isCrouching)
+        else if(Vector3.Distance(transform.position, player.transform.position) < hearingRange && !player.isCrouching)
         {
             canHearPlayer = true;
         }
-        else if(!canHearPlayer && Vector3.Distance(transform.position, player.gameObject.transform.position) < hearingRangeCrouch)
+        else if(Vector3.Distance(transform.position, player.gameObject.transform.position) < hearingRangeCrouch)
         {
             canHearPlayer = true;
         }
-        if(!chasing) canHearPlayer = false;
+        else canHearPlayer = false;
+    }
+
+    public void PatrollingSight()
+    {
+        sightSense.sightAngle = 70;
+        sightSense.sightRange = 14;
+        sightSense.OnValidate();
+    }
+
+    public void ChasingSight()
+    {
+        sightSense.sightAngle = 90;
+        sightSense.sightRange = 16;
+        sightSense.OnValidate();
     }
 
     private GameObject PlayerDetected()
@@ -64,7 +91,8 @@ public class PatrickController : MonoBehaviour
         if(sightSense.objects.Count > 0)
             return sightSense.objects[0];
         if(canHearPlayer)
-            return gameObject;
+            return player.gameObject;
+        
         return null;
     }
 
