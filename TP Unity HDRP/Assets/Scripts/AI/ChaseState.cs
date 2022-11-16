@@ -23,6 +23,8 @@ public class ChaseState : State
         papate.agent.speed = papate.chasingSpeed;
         papate.animator.SetBool("Move", true);
         papate.animator.SetFloat("Speed", papate.agent.speed);
+        papate.audio.PlayOneShot(papate.spottedSound);
+        papate.chaseMusic.enabled = true;
     }
 
     public override State RunCurrentState()

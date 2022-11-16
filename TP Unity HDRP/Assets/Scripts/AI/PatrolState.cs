@@ -22,6 +22,7 @@ public class PatrolState : State
         papate.agent.speed = papate.patrollingSpeed;
         papate.animator.SetBool("Move", true);
         papate.animator.SetFloat("Speed", papate.agent.speed);
+        papate.chaseMusic.enabled = false;
     }
 
     public override State RunCurrentState()
@@ -66,6 +67,7 @@ public class PatrolState : State
             else 
             {
                 papate.ChangePatrolPath();
+                papate.PatrickWhistle();
                 waypointIndex = 0; 
             }
            

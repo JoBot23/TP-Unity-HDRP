@@ -22,6 +22,7 @@ public class SearchingState : State
         papate.animator.SetBool("Move", false);
         papate.animator.SetTrigger("Suspicious");
         papate.agent.isStopped = true;
+        papate.chaseMusic.enabled = false;
         StartCoroutine(WaitSeek());
     }
 

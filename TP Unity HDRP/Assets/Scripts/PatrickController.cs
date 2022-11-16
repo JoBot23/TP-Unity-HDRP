@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class PatrickController : MonoBehaviour
 {
     public static PatrickController instance;
+    [HideInInspector] public AudioSource audio;
     [SerializeField] PlayerController player;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public AISight sightSense;
@@ -18,6 +19,7 @@ public class PatrickController : MonoBehaviour
     public GameObject target;
 
     [Header("UI")]
+    [SerializeField] Image winImg;
     [SerializeField] Image deathScreen;
     [SerializeField] Image deathText;
     [SerializeField] Button playAgainButton;
@@ -42,12 +44,23 @@ public class PatrickController : MonoBehaviour
     public float hitCooldown = 1f;
     private float speedBackup;
     bool end = false;
+    public bool win = false;
+
+    [Header("Audio")]
+    public AudioSource chaseMusic;
+    public AudioClip spottedSound;
+    public AudioClip[] hitSounds;
+    public AudioClip[] catchSounds;
+    public AudioClip[] whistleSounds;
+
+    [HideInInspector] public float keys = 0;
 
     void Awake() 
     {
         instance = this;
         agent = GetComponent<NavMeshAgent>();
         sightSense = GetComponent<AISight>();
+        audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -80,10 +93,17 @@ public class PatrickController : MonoBehaviour
         else canHearPlayer = false;
 
         //Death
-        if(chasing && Vector3.Distance(transform.position, player.transform.position) < 1.5f && !end)
+        if(chasing && Vector3.Distance(transform.position, player.transform.position) < 1.5f && !end && !win)
         {
+            agent.Stop();
+            player.canMove = false;
+            audio.Stop();
+
+            float vol = audio.volume;
+            audio.volume = vol/1.3f; 
+            audio.PlayOneShot(catchSounds[Random.Range(0,2)]);
+
             end = true;
-            print("you lost");
             deathScreen.DOFade(1, 1);
             StartCoroutine(ShowDeathButtons());
         }
@@ -129,6 +149,11 @@ public class PatrickController : MonoBehaviour
     {
         if(hitCooldown == 1)
         {
+            float vol = audio.volume;
+            audio.volume = vol/1.65f; 
+            audio.PlayOneShot(hitSounds[Random.Range(0,2)]);
+            audio.volume = vol;
+
             hitCooldown = 0;
             animator.SetTrigger("HitBySomething");
             canHearPlayer = true;
@@ -179,6 +204,39 @@ public class PatrickController : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void PatrickWhistle()
+    {
+        if(!audio.isPlaying && Random.Range(0,100) > 33)
+        {
+            float vol = audio.volume;
+            audio.volume = vol/2.5f; 
+            audio.PlayOneShot(whistleSounds[Random.Range(0,2)]);
+            audio.volume = vol;
+        }
+    }
+
+    public void Win()
+    {
+        agent.Stop();
+        player.canMove = false;
+        audio.Stop();
+
+        win = true;
+        end = true;
+        deathScreen.DOFade(1, 1);
+        StartCoroutine(ShowWinButton());
+    }
+
+    IEnumerator ShowWinButton()
+    {
+        yield return new WaitForSeconds(1f);
+        Cursor.lockState = CursorLockMode.None;
+        winImg.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        quitButton.gameObject.SetActive(true);
+        playAgainButton.gameObject.SetActive(true);
     }
 
 }

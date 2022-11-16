@@ -46,9 +46,17 @@ public class MouseLookScript : MonoBehaviour
             {
                 if(Input.GetKeyDown(KeyCode.E) && outlined)
                 {
-                    canHover = false;
-                    UnOutlineObject();
-                    PickupThrow.instance.PickupObj(hit.collider.transform.parent.gameObject);
+                    if(hit.collider.transform.parent.gameObject.GetComponent<Key>())
+                    {
+                        hit.collider.transform.parent.gameObject.GetComponent<Key>().OnPickedUp();
+                    }
+                    else
+                    {
+                        canHover = false;
+                        UnOutlineObject();
+                        PickupThrow.instance.PickupObj(hit.collider.transform.parent.gameObject);
+                    }
+                    
                     return;
                 }
 
