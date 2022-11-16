@@ -16,27 +16,29 @@ public class ChaseState : State
         papate = PatrickController.instance;    
     }
 
+    public void StartChasing()
+    {
+        papate.patrolling = false;
+        papate.chasing = true;
+        papate.agent.speed = papate.chasingSpeed;
+        papate.animator.SetBool("Move", true);
+        papate.animator.SetFloat("Speed", papate.agent.speed);
+    }
+
     public override State RunCurrentState()
     {
-        if(isInAttackRange)
+        
+        if(papate.target)
         {
-            return attackState;
+            lastSeen = papate.target.transform.position;
         }
-        else
+        else if(papate.agent.remainingDistance < 0.5f)
         {
-            if(papate.target)
-            {
-                if(!papate.chasing) papate.chasing = true;
-                lastSeen = papate.target.transform.position;
-            }
-            else 
-            {
-                seekingState.StartSeeking();
-                return seekingState;
-            }
+            seekingState.StartSeeking();
+            return seekingState;
+        }
 
-            papate.agent.SetDestination(lastSeen);
-            return this;
-        }
+        if(lastSeen != null) papate.agent.SetDestination(lastSeen);
+        return this;
     }
 }

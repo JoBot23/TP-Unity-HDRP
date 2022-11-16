@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class PatrickController : MonoBehaviour
 {
@@ -11,8 +14,15 @@ public class PatrickController : MonoBehaviour
     [HideInInspector] public AISight sightSense;
     public List<Path> patrolPaths = new List<Path>();
     public Path path;
-    public Animator animPatrick;
+    public Animator animator;
     public GameObject target;
+
+    [Header("UI")]
+    [SerializeField] Image deathScreen;
+    [SerializeField] Image deathText;
+    [SerializeField] Button playAgainButton;
+    [SerializeField] Button quitButton;
+    [SerializeField] float fadeSpeed;
 
     [Header("Parameters")]
     public float patrollingSpeed;
@@ -29,6 +39,9 @@ public class PatrickController : MonoBehaviour
     public bool canSeePlayer;
     public bool canHearPlayer;
     public bool patrolling = true;
+    public float hitCooldown = 1f;
+    private float speedBackup;
+    bool end = false;
 
     void Awake() 
     {
@@ -39,11 +52,6 @@ public class PatrickController : MonoBehaviour
 
     void Update()
     {
-        //Speed
-        if(patrolling) agent.speed = patrollingSpeed;
-        else if(chasing) agent.speed = chasingSpeed;
-        else agent.speed = throughPatrolSpeed;
-
         //Sight
         if(!canSeePlayer && PlayerDetected())
         {
@@ -70,6 +78,15 @@ public class PatrickController : MonoBehaviour
             canHearPlayer = true;
         }
         else canHearPlayer = false;
+
+        //Death
+        if(chasing && Vector3.Distance(transform.position, player.transform.position) < 1.5f && !end)
+        {
+            end = true;
+            print("you lost");
+            deathScreen.DOFade(1, 1);
+            StartCoroutine(ShowDeathButtons());
+        }
     }
 
     public void PatrollingSight()
@@ -107,4 +124,61 @@ public class PatrickController : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, hearingRangeCrouch);
     }
+
+    public IEnumerator PatrickHit()
+    {
+        if(hitCooldown == 1)
+        {
+            hitCooldown = 0;
+            animator.SetTrigger("HitBySomething");
+            canHearPlayer = true;
+
+            agent.speed = agent.speed * 0.5f;
+            animator.SetFloat("SlowMul", 0.6f);
+
+            yield return new WaitForSeconds(1.2f); 
+
+            if(chasing) agent.speed = chasingSpeed;
+            else agent.speed = patrollingSpeed;
+
+            animator.SetFloat("SlowMul", 1f);
+            hitCooldown = 1;
+        }
+    }
+
+    public void ChangePatrolPath()
+    {
+        //Find closest path to player 
+        float distPath = 5000f;
+        foreach(Path p in patrolPaths)
+        {
+            var dist = Vector3.Distance(p.gameObject.transform.position, player.transform.position);
+            if(dist < distPath) 
+            {
+                distPath = dist;
+                path = p;
+            }
+        }
+    }
+
+    IEnumerator ShowDeathButtons()
+    {
+        yield return new WaitForSeconds(1f);
+        Cursor.lockState = CursorLockMode.None;
+        deathText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        quitButton.gameObject.SetActive(true);
+        playAgainButton.gameObject.SetActive(true);
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
 }

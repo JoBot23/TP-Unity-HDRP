@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class PatrolState : State
-{
+{   
     [SerializeField] ChaseState chaseState;
     PatrickController papate;
     public int waypointIndex;
@@ -16,12 +16,20 @@ public class PatrolState : State
         papate = PatrickController.instance;    
     }
 
+    public void StartPatrol()
+    {
+        papate.patrolling = true;
+        papate.agent.speed = papate.patrollingSpeed;
+        papate.animator.SetBool("Move", true);
+        papate.animator.SetFloat("Speed", papate.agent.speed);
+    }
+
     public override State RunCurrentState()
     {
         if(papate.canSeePlayer || papate.canHearPlayer) 
         {
-            papate.patrolling = false;
             papate.ChasingSight();
+            chaseState.StartChasing();
             return chaseState;
         }
         else
@@ -33,29 +41,31 @@ public class PatrolState : State
 
     private void Patrol()
     {
-        if(PatrickController.instance.agent.remainingDistance < 0.5f)
+        if(papate.agent.remainingDistance < 0.5f)
         {
-            if(waypointIndex < PatrickController.instance.path.waypoints.Count-1)
+            if(waypointIndex < papate.path.waypoints.Count-1)
             {
-                if(PatrickController.instance.path.waypoints[waypointIndex].tag == "WaitWaypoint")
+                if(papate.path.waypoints[waypointIndex].tag == "WaitWaypoint") //Timed waypoint
                 {
+                    //papate.animator.SetBool("Move", false);
                     waitTimer += Time.deltaTime;
                     if(waitTimer > waitWaypointTime)
                     {
                         waypointIndex++;
+                        papate.agent.SetDestination(papate.path.waypoints[waypointIndex].position);
+                        papate.animator.SetBool("Move", true);
                         waitTimer = 0;
-                        PatrickController.instance.agent.SetDestination(PatrickController.instance.path.waypoints[waypointIndex].position);
-                        if(waypointIndex == PatrickController.instance.path.waypoints.Count-1) waypointIndex = 0;
                     }
                 }
-                else
+                else //Simple waypoint
                 {
                     waypointIndex++;
-                    PatrickController.instance.agent.SetDestination(PatrickController.instance.path.waypoints[waypointIndex].position);
+                    papate.agent.SetDestination(papate.path.waypoints[waypointIndex].position);
                 }
             }
             else 
             {
+                papate.ChangePatrolPath();
                 waypointIndex = 0; 
             }
            

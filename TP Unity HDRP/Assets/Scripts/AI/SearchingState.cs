@@ -18,6 +18,10 @@ public class SearchingState : State
     public void StartSeeking()
     {
         hasWaited = false;
+        papate.chasing = false;
+        papate.animator.SetBool("Move", false);
+        papate.animator.SetTrigger("Suspicious");
+        papate.agent.isStopped = true;
         StartCoroutine(WaitSeek());
     }
 
@@ -25,27 +29,29 @@ public class SearchingState : State
     {
         if(papate.canSeePlayer || papate.canHearPlayer) 
         {
+            papate.agent.isStopped = false;
             papate.ChasingSight();
+            chaseState.StartChasing();
             return chaseState;
         }
 
         if(hasWaited)
         {
+            papate.agent.isStopped = false;
             papate.PatrollingSight();
+            patrolState.StartPatrol();
             return patrolState;
         } 
-        else
-        {
-            return this;
-        }
+        return this;
     }
 
     IEnumerator WaitSeek()
     {
-        print(hasWaited);
-        yield return new WaitForSeconds(5f);
-        papate.patrolling = true;
-        papate.chasing = false;
-        hasWaited = true;
+        yield return new WaitForSeconds(4f);
+        if(!papate.chasing && !papate.patrolling)
+        {
+            hasWaited = true;
+            papate.agent.isStopped = false;
+        }
     }
 }

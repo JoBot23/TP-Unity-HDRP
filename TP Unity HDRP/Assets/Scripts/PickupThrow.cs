@@ -48,6 +48,8 @@ public class PickupThrow : MonoBehaviour
 
         if(!obj.GetComponent<Rigidbody>())
             obj.AddComponent<Rigidbody>();
+        if(!obj.GetComponent<ObjectThrown>())
+            obj.AddComponent<ObjectThrown>();
 
         go.GetComponent<Rigidbody>().isKinematic = true;
         go.GetComponent<Rigidbody>().velocity = Vector3.zero;
