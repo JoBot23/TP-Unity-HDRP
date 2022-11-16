@@ -18,6 +18,7 @@ public class ChaseState : State
 
     public void StartChasing()
     {
+        papate.audio.Stop();        
         papate.patrolling = false;
         papate.chasing = true;
         papate.agent.speed = papate.chasingSpeed;
