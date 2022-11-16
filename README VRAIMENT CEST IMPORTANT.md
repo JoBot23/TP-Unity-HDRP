@@ -1,4 +1,3 @@
-# TP-Unity-HDRP
+# HELLO PATRICK™
 
-LE TP EST PAS FINI DONC PAS DE RELEASE = PAS FINI NOTEZ PAS
-RELEASE SOON dans moins de 30 minutes !
+Hello, pour accéder au build du projet, veuillez téléchargez la release sur le github.
