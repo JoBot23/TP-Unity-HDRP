@@ -5,22 +5,26 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
     [SerializeField] GameObject keyPickupText;
+    bool picked = false;
     public void OnPickedUp()
     {
-        PatrickController.instance.keys++;
-        print(PatrickController.instance.keys);
-        if(PatrickController.instance.keys >= 3)
+        if(!picked)
         {
-            gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
-            PatrickController.instance.Win();
+            picked = true;
+            PatrickController.instance.keys++;
+            print(PatrickController.instance.keys);
+            if(PatrickController.instance.keys >= 3)
+            {
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+                PatrickController.instance.Win();
+            }
+            else
+            {
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+                keyPickupText.gameObject.SetActive(true);
+                StartCoroutine(HideKeyText());
+            }
         }
-        else
-        {
-            gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
-            keyPickupText.gameObject.SetActive(true);
-            StartCoroutine(HideKeyText());
-        }
-        
     }
 
     IEnumerator HideKeyText()

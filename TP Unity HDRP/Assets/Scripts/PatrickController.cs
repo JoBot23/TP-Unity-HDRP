@@ -52,6 +52,7 @@ public class PatrickController : MonoBehaviour
     public AudioClip[] hitSounds;
     public AudioClip[] catchSounds;
     public AudioClip[] whistleSounds;
+    public AudioClip winSound;
 
     [HideInInspector] public float keys = 0;
 
@@ -98,9 +99,8 @@ public class PatrickController : MonoBehaviour
             agent.Stop();
             player.canMove = false;
             audio.Stop();
-
-            float vol = audio.volume;
-            audio.volume = vol/1.3f; 
+            chaseMusic.enabled = false;
+            player.GetComponent<AudioSource>().Stop();
             audio.PlayOneShot(catchSounds[Random.Range(0,2)]);
 
             end = true;
@@ -149,10 +149,7 @@ public class PatrickController : MonoBehaviour
     {
         if(hitCooldown == 1)
         {
-            float vol = audio.volume;
-            audio.volume = vol/1.65f; 
             audio.PlayOneShot(hitSounds[Random.Range(0,2)]);
-            audio.volume = vol;
 
             hitCooldown = 0;
             animator.SetTrigger("HitBySomething");
@@ -210,16 +207,19 @@ public class PatrickController : MonoBehaviour
     {
         if(!audio.isPlaying && Random.Range(0,100) > 33)
         {
-            float vol = audio.volume;
-            audio.volume = vol/2.5f; 
             audio.PlayOneShot(whistleSounds[Random.Range(0,2)]);
-            audio.volume = vol;
         }
     }
 
     public void Win()
     {
         agent.Stop();
+        audio.Stop();
+        player.GetComponent<AudioSource>().Stop();
+
+        chaseMusic.enabled = true;
+        chaseMusic.PlayOneShot(winSound);
+
         player.canMove = false;
         audio.Stop();
 
