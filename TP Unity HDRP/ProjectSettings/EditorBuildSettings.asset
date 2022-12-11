@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/Game.unity
-    guid: 8124e5870f4fd4c779e7a5f994e84ad1
-  - enabled: 1
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Slavica.unity
     guid: 4e4c5b0f6c1c69448be7c5631ed01457
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 27a45d9891831414f94d642fd6d8c991
   m_configObjects: {}
